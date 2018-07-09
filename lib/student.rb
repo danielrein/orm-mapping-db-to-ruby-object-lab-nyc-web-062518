@@ -42,8 +42,8 @@ class Student
     run_sql('SELECT * FROM students').map { |row| self.new_from_db(row) }
   end
 
-  def self.first_X_students_in_grade_10
-    run_sql('SELECT * FROM students').map { |row| self.new_from_db(row) }
+  def self.first_X_students_in_grade_10(x)
+    run_sql('SELECT * FROM students WHERE grade = ? LIMIT ?', x, 10).map { |row| self.new_from_db(row) }
   end
 
   def save
