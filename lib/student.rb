@@ -27,14 +27,16 @@ class Student
 
   def self.find_by_name(name)
     array = run_sql('SELECT * FROM students WHERE name = ? LIMIT 1', name)
-    array.map do |row|
-      self.new_from_db(row)
-    end.first
+    array.map { |row| self.new_from_db(row) }.first
     # binding.pry
     # student = Student.new_from_db(hash)
     # find the student in the database given a name
     # return a new instance of the Student class
     # student
+  end
+
+  def self.count_all_students_in_grade_9
+
   end
 
   def save
