@@ -35,7 +35,7 @@ class Student
   end
 
   def self.students_below_12th_grade
-    run_sql('SELECT * FROM students WHERE grade <= ?', 11)
+    run_sql('SELECT * FROM students WHERE grade < ?', 12)
   end
 
   def save
