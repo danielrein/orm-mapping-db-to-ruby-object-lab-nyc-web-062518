@@ -53,6 +53,7 @@ class Student
   end
 
   def all_students_in_grade_X(x)
+    run_sql('SELECT * FROM students WHERE grade = ?', x)
   end
 
   def save
