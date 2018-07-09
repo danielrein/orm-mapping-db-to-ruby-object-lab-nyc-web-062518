@@ -47,7 +47,8 @@ class Student
   end
 
   def self.first_student_in_grade_10
-    run_sql('SELECT * FROM students WHERE grade = ? LIMIT ?', 10, 1).map { |row| self.new_from_db(row) }
+    array = run_sql('SELECT * FROM students WHERE grade = ? LIMIT ?', 10, 1)
+    self.new_from_db(array[0]) }
     binding.pry
   end
 
