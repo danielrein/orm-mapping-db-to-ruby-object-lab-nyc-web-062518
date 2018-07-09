@@ -39,7 +39,7 @@ class Student
   end
 
   def self.all
-    run_sql('SELECT * FROM students')
+    run_sql('SELECT * FROM students').map { |row| self.new_from_db(row) }
   end
 
   def save
