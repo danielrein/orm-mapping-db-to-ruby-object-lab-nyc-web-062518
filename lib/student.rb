@@ -52,7 +52,7 @@ class Student
     # binding.pry
   end
 
-  def all_students_in_grade_X(x)
+  def self.all_students_in_grade_X(x)
     run_sql('SELECT * FROM students WHERE grade = ?', x)
   end
 
