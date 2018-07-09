@@ -3,67 +3,57 @@ require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
+   def run_sql(string, *args)
+    DB[:conn].execute(string, *args)
+  end
+
+  def self.run_sql(string, *args)
+    DB[:conn].execute(string, *args)
+  end
+
   def self.new_from_db(row)
-    student = Student.new
-    student.id = row[0]
-    student.name = row[1]
-    student.grade = row[2]
-    student
+    new_student = Student.new
+    new_student.id = row[0]
+    new_student.name = row[1]
+    new_student.grade = row[2]
+    new_student
   end
 
   def self.all
-
-    table = run_sql('SELECT * from students')
-    table
-    # retrieve all the rows from the "Students" database
-    # remember each row should be a new instance of the Student class
+    run_sql('SELECT * FROM students').map do |row|
+      self.new_from_db
+    end
   end
 
   def self.find_by_name(name)
-    hash = run_sql('SELECT * FROM students WHERE name = ?', name)
-    student = Student.new_from_db(hash)
+    array = run_sql('SELECT * FROM students WHERE name = ? LIMIT 1', name)
+    array.map do |row|
+      self.new_from_db(row)
+    end.first
+    # binding.pry
+    # student = Student.new_from_db(hash)
     # find the student in the database given a name
     # return a new instance of the Student class
-    student
+    # student
   end
 
   def save
-    sql = <<-SQL
-      INSERT INTO students (name, grade)
-      VALUES (?, ?)
-    SQL
-
-    DB[:conn].execute(sql, self.name, self.grade)
+      run_sql('INSERT INTO students (name, grade)
+      VALUES (?, ?)', self.name, self.grade)
   end
 
   def self.create_table
-    sql = <<-SQL
-    CREATE TABLE IF NOT EXISTS students (
-      id INTEGER PRIMARY KEY,
-      name TEXT,
-      grade TEXT
-    )
-    SQL
-
-    DB[:conn].execute(sql)
+    run_sql('CREATE TABLE IF NOT EXISTS students (
+      id INTEGER PRIMARY KEY, name TEXT, grade TEXT)')
   end
 
   def self.drop_table
-    sql = "DROP TABLE IF EXISTS students"
-    DB[:conn].execute(sql)
+    run_sql('DROP TABLE IF EXISTS students')
   end
-
-  def run_sql(string, *args)
-   DB[:conn].execute(string, *args)
- end
-
- def self.run_sql(string, *args)
-   DB[:conn].execute(string, *args)
- end
 
 
 end
 
-yosi = Student.new_from_db(id: 1, name: "joe", grade: 9);
-yosi.find_by_name('Joe')
-binding.pry
+yosi = Student.new_from_db([1, "joe", 9]);
+# Student.find_by_name('joe')
+# binding.pry
