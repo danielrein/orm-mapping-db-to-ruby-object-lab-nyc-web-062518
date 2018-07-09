@@ -52,6 +52,9 @@ class Student
     # binding.pry
   end
 
+  def all_students_in_grade_X(x)
+  end
+
   def save
       run_sql('INSERT INTO students (name, grade)
       VALUES (?, ?)', self.name, self.grade)
