@@ -35,7 +35,7 @@ class Student
   end
 
   def self.students_below_12th_grade
-    run_sql('SELECT * FROM students WHERE grade < ?', 12)
+    run_sql('SELECT * FROM students WHERE grade < ?', 12).map { |row| self.new_from_db(row) }
   end
 
   def self.all
