@@ -34,6 +34,10 @@ class Student
     run_sql('SELECT * FROM students WHERE grade = ?', 9)
   end
 
+  def self.students_below_12th_grade
+    run_sql('SELECT * FROM students WHERE grade <= ?', 11)
+  end
+
   def save
       run_sql('INSERT INTO students (name, grade)
       VALUES (?, ?)', self.name, self.grade)
